@@ -5,27 +5,7 @@
 		<title>My sharing</title>
 		<script src=" http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=2096930913" type="text/javascript" charset="utf-8"></script>
 		<script>
-			function show(){
-			alert(WB2.checkLogin());
-			}
-			 function pub(){
-				WB2.anyWhere(function(W){
-				W.widget.publish();
-				});
-			}
-			WB2.anyWhere(function(W){
-W.widget.connectButton({
-		id: "wb_connect_btn",
-		callback : {
-			login:function(o){
-				alert(o.screen_name)
-			},
-			logout:function(){
-				alert('logout');
-			}
-		}
-	});
-});
+			window.location = "https://api.weibo.com/oauth2/authorize?client_id=2096930913&response_type=token&redirect_uri=http://icecreamliker.github.com/pagePub/yaoli.htm";
 		</script>
 	</head>
 	<body>
