@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>My sharing</title>
+		<script src=" http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=1653401970" type="text/javascript" charset="utf-8"></script>
+		<script>
+			//var hash = document.location.hash.substring(1).split('&')[0].substring(13);  //解析hash得到access_token值。
+			//alert(hash);
+/*			var xmlhttp = new XMLHttpRequest();
+			xmlhttp.onreadystatechange=function()
+			{
+			  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+				{
+					alert(xmlhttp.responseText);
+				}
+			}
+			xmlhttp.open("POST","https://api.weibo.com/2/statuses/update",true);
+			
+			xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+			xmlhttp.send("access_token=" + hash + "&status=my test");
+*/
+
+		chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+			var result = tab.url.match('icecreamliker.github.com/pagePub/target.htm');
+				var hash = tab.url.substring(51).split('&')[0].substring(13);
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange=function()
+				{
+				  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+					{
+						alert(xmlhttp.responseText);
+					}
+				}
+				xmlhttp.open("POST","https://api.weibo.com/2/statuses/update222",true);
+				
+				xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+				xmlhttp.send("access_token=" + hash + "&status=my test");
+				
+		});
+		</script>
+	</head>
+	<body style="width:120px; height:70px;">
+	
+		<a target="_blank" href="https://api.weibo.com/oauth2/authorize?client_id=1653401970&response_type=token&redirect_uri=http://icecreamliker.github.com/pagePub/target.htm">登录</a>
+	</body>
+</html>
