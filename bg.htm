@@ -24,18 +24,22 @@
 		chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 			var result = tab.url.match('icecreamliker.github.com/pagePub/target.htm');
 				var hash = tab.url.substring(51).split('&')[0].substring(13);
-				var xmlhttp = new XMLHttpRequest();
-				xmlhttp.onreadystatechange=function()
-				{
-				  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+				//alert(hash)
+				if(hash){
+					var xmlhttp = new XMLHttpRequest();
+					xmlhttp.onreadystatechange=function()
 					{
-						alert(xmlhttp.responseText);
+					  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+						{
+							alert(xmlhttp.responseText);
+							//alert(2);
+						}
 					}
+					xmlhttp.open("POST","https://api.weibo.com/2/statuses/update.json",true);
+					
+					xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+					xmlhttp.send("access_token=" + hash + "&status=我是好人");
 				}
-				xmlhttp.open("POST","https://api.weibo.com/2/statuses/update222",true);
-				
-				xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-				xmlhttp.send("access_token=" + hash + "&status=my test");
 				
 		});
 		</script>
