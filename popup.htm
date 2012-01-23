@@ -3,13 +3,21 @@
 	<head>
 		<meta charset="utf-8">
 		<title>My sharing</title>
-		<script src=" http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=1653401970" type="text/javascript" charset="utf-8"></script>
+		
 		<script>
-			var hash = document.location.hash.substring(1).split('&')[0].substring(13);  //解析hash得到access_token值。
+			//var hash = document.location.hash.substring(1).split('&')[0].substring(13);  //解析hash得到access_token值。
+			var bg = chrome.extension.getBackgroundPage();
+			function share(){
+				chrome.tabs.getSelected(null, function(tab) { 
+					bg.sendMsg(tab.title, tab.url);
+				});
+				//bg.sendMsg();
+			}
 		</script>
 	</head>
 	<body style="width:120px; height:70px;">
 	
 		<a target="_blank" href="https://api.weibo.com/oauth2/authorize?client_id=1653401970&response_type=token&redirect_uri=http://icecreamliker.github.com/pagePub/target.htm">登录</a>
+		<div onclick="share()">点击分享</div>
 	</body>
 </html>

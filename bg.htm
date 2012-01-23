@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<title>My sharing</title>
-		<script src=" http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=1653401970" type="text/javascript" charset="utf-8"></script>
+		
 		<script>
 			//var hash = document.location.hash.substring(1).split('&')[0].substring(13);  //解析hash得到access_token值。
 			//alert(hash);
@@ -20,12 +20,36 @@
 			xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 			xmlhttp.send("access_token=" + hash + "&status=my test");
 */
+		var Token = {
+			setItem: function(key, value){
+				if(localStorage.getItem(key)){
+					//do nothing!
+				}else{
+					localStorage.setItem(key,value);
+				}
+			},
+			getItem: function(key){
+				return localStorage.getItem(key);		
+			},
+			remove: function(key){
+				localStorage.removeItem(key);
+			}
+		}
 
 		chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 			var result = tab.url.match('icecreamliker.github.com/pagePub/target.htm');
 				var hash = tab.url.substring(51).split('&')[0].substring(13);
-				//alert(hash)
 				if(hash){
+					Token.setItem('token', hash);
+				}
+				/*if(Token.getItem('token')){
+					sendMsg();
+				}*/
+				//alert(hash)	
+		});
+
+		function sendMsg(title, url){
+			if(Token.getItem('token')){	
 					var xmlhttp = new XMLHttpRequest();
 					xmlhttp.onreadystatechange=function()
 					{
@@ -38,10 +62,14 @@
 					xmlhttp.open("POST","https://api.weibo.com/2/statuses/update.json",true);
 					
 					xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-					xmlhttp.send("access_token=" + hash + "&status=我是好人");
-				}
-				
-		});
+					var str = title+"  "+url+"  【网址分享助手V0.1】";
+					str = encodeURI(str);
+					xmlhttp.send("access_token=" + Token.getItem('token') + "&status="+str);
+			}else{
+				alert('没有登录！');
+			}
+		}
+		
 		</script>
 	</head>
 	<body style="width:120px; height:70px;">
