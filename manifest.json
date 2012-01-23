@@ -1,7 +1,7 @@
-{
-  "name": "My First Extension",
+﻿{
+  "name": "网址分享小工具",
   "version": "1.0",
-  "description": "The first extension that I made.",
+  "description": "网址分享小工具",
   "background_page": "bg.htm",
   "browser_action": {
     "default_icon": "icon.png",

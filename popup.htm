@@ -13,11 +13,49 @@
 				});
 				//bg.sendMsg();
 			}
+			if(bg.Token.getItem('token')){
+				document.getElementById('J_login').style.color = "#000";
+				document.getElementById('J_share').style.color = "#000";
+			}else{
+				document.getElementById('J_login').style.color = "#000";
+				document.getElementById('J_share').style.color = "#000";
+			}
 		</script>
+		<style>
+			.button {	
+				display:block;
+				width:35px;
+				margin:20px 0 0 12px;
+				border-top: 1px solid #8DC7EB;
+				background: #2C688F;
+				background: -webkit-gradient(linear, left top, left bottom, from(#1787D1), to(#2C688F));
+				padding: 8px 27px 3px;
+				-webkit-border-radius: 15px;
+				-webkit-box-shadow:0 1px 0 rgba(0, 0, 0, 0.9);
+				text-shadow: #808080 0 1px 0;
+				color: #EDD5ED;
+				font-size: 17px;
+				font-family: 'Lucida Grande', Helvetica, Arial, Sans-Serif;
+				text-decoration: none;
+				vertical-align: middle;
+				cursor:pointer;
+			}
+			.button:hover {
+				background: -webkit-gradient(linear, left top, left bottom, from(#1c99e6), to(#2C688F));
+			}
+		</style>
 	</head>
-	<body style="width:120px; height:70px;">
-	
-		<a target="_blank" href="https://api.weibo.com/oauth2/authorize?client_id=1653401970&response_type=token&redirect_uri=http://icecreamliker.github.com/pagePub/target.htm">登录</a>
-		<div onclick="share()">点击分享</div>
+	<body style="width:120px; height:50px; background:-webkit-gradient(radial,center center, 0, center center, 80, from(#909090), to(#fff)) ;">
+		<a id="J_login" target="_blank" href="https://api.weibo.com/oauth2/authorize?client_id=1653401970&response_type=token&redirect_uri=http://icecreamliker.github.com/pagePub/target.htm" class="button" >登录</a>
+		<a id="J_share"  onclick="share()" class="button">分享</a>
+		<script>
+			if(bg.Token.getItem('token')){
+				document.getElementById('J_login').style.display = "none";
+				document.getElementById('J_share').style.display = "block";
+			}else{
+				document.getElementById('J_login').style.display = "block";
+				document.getElementById('J_share').style.display = "none";
+			}
+		</script>
 	</body>
 </html>
