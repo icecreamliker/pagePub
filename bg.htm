@@ -47,7 +47,7 @@
 		chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 			var result = tab.url.match('icecreamliker.github.com/pagePub/target.htm');
 				var hash = tab.url.substring(51).split('&')[0].substring(13);
-				if(hash){
+				if(hash && result){
 					Token.setItem('token', hash);
 					//close the call-back page
 					chrome.tabs.remove(tabId, function(){});
