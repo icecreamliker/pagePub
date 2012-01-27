@@ -20,6 +20,9 @@
 			xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 			xmlhttp.send("access_token=" + hash + "&status=my test");
 */
+		/**
+		 * static function which is a simple helper-class, thus u can take advantage of it to set or get the token value.
+		 */
 		var Token = {
 			setItem: function(key, value){
 				if(localStorage.getItem(key)){
@@ -31,32 +34,53 @@
 			getItem: function(key){
 				return localStorage.getItem(key);		
 			},
+			IsToken: function(key) {
+				return !!localStorage.getItem(key);
+			},
 			remove: function(key){
 				localStorage.removeItem(key);
 			}
 		}
-
+		/**
+		 * add chrome-extension event listener.
+		 */
 		chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 			var result = tab.url.match('icecreamliker.github.com/pagePub/target.htm');
 				var hash = tab.url.substring(51).split('&')[0].substring(13);
 				if(hash){
 					Token.setItem('token', hash);
+					//close the call-back page
+					chrome.tabs.remove(tabId, function(){});
+					chrome.browserAction.setIcon({path:'icon.png'});
 				}
 				/*if(Token.getItem('token')){
 					sendMsg();
 				}*/
 				//alert(hash)	
 		});
-
+		/**
+		 * static function which is used to send message
+		 * @param {string} page title
+		 * @param {string} page url
+		 */
 		function sendMsg(title, url){
-			if(Token.getItem('token')){	
+			if(Token.IsToken('token')){	
 					var xmlhttp = new XMLHttpRequest();
 					xmlhttp.onreadystatechange=function()
 					{
 					  if (xmlhttp.readyState==4 && xmlhttp.status==200)
 						{
-							alert(xmlhttp.responseText);
+							//alert(xmlhttp.responseText);
 							//alert(2);
+							//if send the message correctly,pop up a notification
+							// Create a simple text notification:
+							var notification = webkitNotifications.createNotification(
+							  'icon.png',  // icon url - can be relative
+							  '发送成功!',  // notification title
+							  '恭喜你，分享网页成功！'  // notification body text
+							);
+							// Then show the notification.
+							notification.show();
 						}
 					}
 					xmlhttp.open("POST","https://api.weibo.com/2/statuses/update.json",true);
@@ -69,6 +93,12 @@
 				alert('没有登录！');
 			}
 		}
+		
+		//bootstrap icon style
+		if(Token.IsToken('token')){
+			chrome.browserAction.setIcon({path:'icon.png'});
+		}
+		
 		
 		</script>
 	</head>

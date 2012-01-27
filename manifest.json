@@ -4,11 +4,12 @@
   "description": "网址分享小工具",
   "background_page": "bg.htm",
   "browser_action": {
-    "default_icon": "icon.png",
+    "default_icon": "icon-default.png",
 	"default_popup": "popup.htm"
   },
   "permissions": [
     "https://api.weibo.com/2/statuse/update.json",
-	"tabs"
+	"tabs",
+	"notifications"
   ]
 }

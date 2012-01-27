@@ -7,19 +7,77 @@
 		<script>
 			//var hash = document.location.hash.substring(1).split('&')[0].substring(13);  //解析hash得到access_token值。
 			var bg = chrome.extension.getBackgroundPage();
+					
+			(function(window) {			
+				var doc = window.document;
+				//copy from jquery1.7.1,for resolving the cameling-case problem
+				//for the chrome-extension reason, rejecting the IE RegEx
+				var rdashAlpha = /-([a-z]|[0-9])/ig,
+					fcamelCase = function( all, letter ) {
+							return ( letter + "" ).toUpperCase();
+					},
+					camelCase = function( string ) {
+						return string.replace( rdashAlpha, fcamelCase );
+					};
+				/*
+				//define the global object
+				var icecream = function(){
+					return new icecream.fn.init();
+				};
+				icecream.fn = icecream.prototype = {
+					constructor: icecream,
+					init: function(){
+						return this;				
+					},
+					
+				}
+				//icecream.fn.init.prototype = icecream.fn;
+				*/
+				function icecream(){
+					//return this;
+				};
+				icecream.prototype = {
+					style: function(elem, name, value){ 
+						// Don't set styles on text and comment nodes
+						if ( !elem || elem.nodeType === 3 || elem.nodeType === 8 || !elem.style ){
+							return;
+						}
+						var type, origName = camelCase(name), style = elem.style;
+						if ( value !== undefined ) {
+							type = typeof value;
+							if(type == 'string'){
+								try {
+									style[name] = value;
+								} catch(e){}
+							}else{
+								//have no time to finish this arrangement,hahh
+							}
+						}else{
+							return style[name]
+						}
+					
+					},
+					// retrieve the elem by id
+					query: function(elem){
+						//get the element,wow, my implementation is so simple,dont copy my sily experience
+						if(typeof elem == 'string'){
+							return document.getElementById(elem);
+						}else{ }
+					},
+					//version
+					version: 'V0.1.1'
+				
+				};
+				
+				window.$ = window.icecream = new icecream();
+				
+			})(window);
 			function share(){
 				chrome.tabs.getSelected(null, function(tab) { 
 					bg.sendMsg(tab.title, tab.url);
 				});
-				//bg.sendMsg();
 			}
-			if(bg.Token.getItem('token')){
-				document.getElementById('J_login').style.color = "#000";
-				document.getElementById('J_share').style.color = "#000";
-			}else{
-				document.getElementById('J_login').style.color = "#000";
-				document.getElementById('J_share').style.color = "#000";
-			}
+			
 		</script>
 		<style>
 			.button {	
@@ -50,11 +108,16 @@
 		<a id="J_share"  onclick="share()" class="button">分享</a>
 		<script>
 			if(bg.Token.getItem('token')){
-				document.getElementById('J_login').style.display = "none";
-				document.getElementById('J_share').style.display = "block";
+				$.style($.query('J_login'), 'display', 'none');
+				$.style($.query('J_share'), 'display', 'block');
+				//icecream.style(document.getElementById('J_share'), 'font-weight', 'bold');
+				//document.getElementById('J_login').style.display = "none";
+				//document.getElementById('J_share').style.display = "block";
 			}else{
-				document.getElementById('J_login').style.display = "block";
-				document.getElementById('J_share').style.display = "none";
+				$.style($.query('J_login'), 'display', 'block');
+				$.style($.query('J_share'), 'display', 'none');
+				//document.getElementById('J_login').style.display = "block";
+				//document.getElementById('J_share').style.display = "none";
 			}
 		</script>
 	</body>
